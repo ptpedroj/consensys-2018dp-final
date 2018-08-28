@@ -6,8 +6,9 @@ contract('BountyBoard', function(accounts) {
   const bob = accounts[2];
   const bountyRewards = web3.toBigNumber(1);
 
-  it("can create bounty claimant", async () => {
+  it("can create bounty board", async () => {
     const board = await BountyBoard.deployed();
     assert.isNotNull(board);
   });
+
 });
