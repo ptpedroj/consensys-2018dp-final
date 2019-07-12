@@ -1,20 +1,20 @@
-pragma solidity ^0.4.24;
+pragma solidity ^0.5.0;
 
-import "openzeppelin-solidity/contracts/lifecycle/Destructible.sol";
-import { Target } from "openzeppelin-solidity/contracts/Bounty.sol";
+import "openzeppelin-solidity/contracts/ownership/Ownable.sol";
+import "openzeppelin-solidity/contracts/lifecycle/Pausable.sol";
 
-contract BountyClaimant is Target, Destructible {
-  address internal claimant;
+contract BountyClaimant is Ownable, Pausable {
+    address internal claimant;
 
-  function getClaimant() public view returns(address) {
-    return claimant;
-  }
+    function getClaimant() public view returns(address) {
+        return claimant;
+    }
 
-  function setClaimant(address newClaimant) external onlyOwner {
-    claimant = newClaimant;
-  }
+    function setClaimant(address newClaimant) external onlyOwner {
+        claimant = newClaimant;
+    }
 
-  function checkInvariant() public returns(bool) {
-    return claimant == address(0);
-  }
+    function checkInvariant() public view returns(bool) {
+        return claimant == address(0);
+    }
 }

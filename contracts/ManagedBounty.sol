@@ -1,24 +1,24 @@
-pragma solidity ^0.4.24;
+pragma solidity ^0.5.0;
 
-import { Bounty } from "openzeppelin-solidity/contracts/Bounty.sol";
+import "openzeppelin-solidity/contracts/ownership/Ownable.sol";
+import "openzeppelin-solidity/contracts/lifecycle/Pausable.sol";
+import "openzeppelin-solidity/contracts/payment/PullPayment.sol";
+import "openzeppelin-solidity/contracts/math/SafeMath.sol";
 import { BountyClaimant } from "./BountyClaimant.sol";
 
-contract ManagedBounty is Bounty {
-  string internal description;
+contract ManagedBounty is Ownable, Pausable, PullPayment {
+    using SafeMath for uint256;
+    string internal description;
 
-  constructor (string newDescription) public {
-    description = newDescription;
-  }
+    constructor (string memory newDescription) public {
+        description = newDescription;
+    }
 
-  function getDescription() public view returns(string) {
-    return description;
-  }
+    function getDescription() public view returns(string memory) {
+        return description;
+    }
 
-  function setDescription(string newDescription) external onlyOwner {
-    description = newDescription;
-  }
-
-  function deployContract() internal onlyOwner returns(address) {
-    return new BountyClaimant();
-  }
+    function setDescription(string calldata newDescription) external onlyOwner {
+        description = newDescription;
+    }
 }
